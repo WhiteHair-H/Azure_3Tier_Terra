@@ -1,0 +1,18 @@
+# apache 설치
+resource "azurerm_virtual_machine_extension" "jwh_web_vm_ex" {
+  name                 = "jwh_web_vm_ex"
+  virtual_machine_id   = azurerm_virtual_machine.jwh_web_vm.id
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.0"
+
+  settings = <<SETTINGS
+  {
+      "script": "${filebase64("websh.sh")}"
+  }
+  SETTINGS
+
+  depends_on = [
+    azurerm_virtual_machine.jwh_web_vm
+  ]
+}

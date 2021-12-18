@@ -1,0 +1,45 @@
+# Was 가상머신 서브넷 인터페이스 생성
+resource "azurerm_network_interface" "jwh_was_vm_nif" {
+  name                = "jwh_was_vm_nif"
+  location            = azurerm_resource_group.jwh_rg.location
+  resource_group_name = azurerm_resource_group.jwh_rg.name
+
+  ip_configuration {
+    name                          = "was_vm_pub"
+    subnet_id                     = azurerm_subnet.WAS_sub.id
+    private_ip_address_allocation = "Dynamic"
+  }
+
+  depends_on = [
+    azurerm_subnet_network_security_group_association.jwh_nsgass_was
+  ]
+}
+
+# was vm create
+resource "azurerm_virtual_machine" "jwh_was_vm" {
+  name                  = "jwh_was_vm"
+  location              = azurerm_resource_group.jwh_rg.location
+  resource_group_name   = azurerm_resource_group.jwh_rg.name
+  network_interface_ids = [azurerm_network_interface.jwh_was_vm_nif.id]
+  vm_size               = "Standard_DS1_v2"
+  zones                 = [1]
+
+  storage_image_reference {
+    id = azurerm_shared_image_version.was_img_v.id    
+  }
+
+  storage_os_disk {
+    name              = "jwh_was_vm_disk"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "StandardSSD_LRS"
+  }
+
+  os_profile_linux_config {
+    disable_password_authentication = false
+  }
+
+  depends_on = [
+    azurerm_network_interface.jwh_was_vm_nif
+  ]
+}
