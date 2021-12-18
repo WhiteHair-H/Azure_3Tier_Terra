@@ -1,4 +1,4 @@
-# # Web 가상머신
+##### Web 가상머신 #####
 resource "azurerm_linux_virtual_machine" "jwh_web_vm" {
   name                  = "jwh_web_vm"
   location              = azurerm_resource_group.jwh_rg.location

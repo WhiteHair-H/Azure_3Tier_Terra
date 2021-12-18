@@ -1,4 +1,3 @@
-#---------------------------------------------------#
 # ILB
 resource "azurerm_lb" "jwh_ilb" {
   name                = "jwh_ilb"

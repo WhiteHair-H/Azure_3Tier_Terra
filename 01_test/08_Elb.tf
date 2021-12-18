@@ -66,6 +66,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "jwh_elb_b
   ]
 }
 
+##### ELB nat_rule & Backend 추가 ######
 resource "azurerm_network_interface_nat_rule_association" "jwh_elb_back_nat_ass" {
   network_interface_id    = azurerm_network_interface.jwh_web_vm_nif.id
   ip_configuration_name   = "web_vm_pub"
@@ -104,6 +105,7 @@ resource "azurerm_lb_rule" "jwh_http_rule" {
   ]
 }
 
+##### ELB nat_rule ssh 포트 추가 #####
 resource "azurerm_lb_nat_rule" "jwh_ssh_rule" {
   resource_group_name = azurerm_resource_group.jwh_rg.name
   loadbalancer_id = azurerm_lb.jwh_lb.id

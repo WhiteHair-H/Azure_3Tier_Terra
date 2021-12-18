@@ -26,7 +26,7 @@ resource "azurerm_network_interface" "jwh_was_vm_img_nif" {
   ]
 }
 
-# Was img 가상머신
+##### Was img 가상머신 #####
 resource "azurerm_linux_virtual_machine" "jwh_was_img_vm" {
   name                  = "jwh_was_img_vm"
   location              = azurerm_resource_group.jwh_rg.location
