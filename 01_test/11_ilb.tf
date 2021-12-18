@@ -19,16 +19,16 @@ resource "azurerm_lb_backend_address_pool" "jwh_ilb_back" {
   name            = "jwh_ilb_back"
 }
 
-# ilb와 was 연결
-resource "azurerm_network_interface_backend_address_pool_association" "jwh_ilb_back_nif_ass" {
-  network_interface_id    = azurerm_network_interface.jwh_was_vm_nif.id
-  ip_configuration_name   = "was_vm_pub"
-  backend_address_pool_id = azurerm_lb_backend_address_pool.jwh_ilb_back.id
+# # ilb와 was 연결
+# resource "azurerm_network_interface_backend_address_pool_association" "jwh_ilb_back_nif_ass" {
+#   network_interface_id    = azurerm_network_interface.jwh_was_vm_nif.id
+#   ip_configuration_name   = "was_vm_pub"
+#   backend_address_pool_id = azurerm_lb_backend_address_pool.jwh_ilb_back.id
 
-  depends_on = [
-    azurerm_virtual_machine.jwh_was_vm
-  ]
-}
+#   depends_on = [
+#     azurerm_virtual_machine.jwh_was_vm
+#   ]
+# }
 
 # ilb probe
 resource "azurerm_lb_probe" "jwh_ilb_probe" {

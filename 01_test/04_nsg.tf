@@ -18,7 +18,7 @@ resource "azurerm_network_security_group" "jwh_nsg_web" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_ranges     = ["80" , "22"]
+    destination_port_ranges    = ["80" , "22"]
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }

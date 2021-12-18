@@ -16,27 +16,28 @@ resource "azurerm_network_interface" "jwh_was_vm_nif" {
 }
 
 # was vm create
-resource "azurerm_virtual_machine" "jwh_was_vm" {
+resource "azurerm_linux_virtual_machine" "jwh_was_vm" {
   name                  = "jwh_was_vm"
   location              = azurerm_resource_group.jwh_rg.location
   resource_group_name   = azurerm_resource_group.jwh_rg.name
   network_interface_ids = [azurerm_network_interface.jwh_was_vm_nif.id]
-  vm_size               = "Standard_DS1_v2"
-  zones                 = [1]
+  zone                  = 1
+  size                  = "Standard_DS1_v2"
+  admin_username        = "haha"
+  computer_name         = "wasvm"
 
-  storage_image_reference {
-    id = azurerm_shared_image_version.was_img_v.id    
+  admin_ssh_key {
+    username   = "haha"
+    public_key = file("../../.ssh/id_rsa.pub")
   }
 
-  storage_os_disk {
-    name              = "jwh_was_vm_disk"
-    caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "StandardSSD_LRS"
-  }
+  
+  source_image_id = azurerm_shared_image_version.was_img_v.id
 
-  os_profile_linux_config {
-    disable_password_authentication = false
+  os_disk {
+    name                 = "jwh_was_disk"
+    caching              = "ReadWrite"
+    storage_account_type = "StandardSSD_LRS"
   }
 
   depends_on = [
